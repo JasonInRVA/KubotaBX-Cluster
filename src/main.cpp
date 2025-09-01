@@ -2,6 +2,7 @@
 #include "Dashboard.h"
 #include "TractorInputs.h"
 #include "RemoteServer.h"
+#include "secrets.h"
 
 // --- Global Objects ---
 Dashboard *dashboard = nullptr;
@@ -48,6 +49,7 @@ void loop()
     { // Send data 10 times per second
         lastWsSend = millis();
         // Debug: print the TractorState before sending
+        /*
         Serial.printf(
             "WS Send -> RPM: %u, Fuel: %.1f%%, Temp: %.1f°C, Oil OK: %d, BL Left: %d, BL Right: %d, Lights: %d, Glow: %d, Batt OK: %d\n",
             s.rpm,
@@ -59,6 +61,7 @@ void loop()
             s.headlights,
             s.glow_on,
             s.battery_ok);
+        */
         remoteServer->broadcastState(s);
     }
 
