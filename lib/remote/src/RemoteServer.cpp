@@ -2,10 +2,12 @@
 #include <WiFi.h>
 #include <SPIFFS.h>
 #include <ArduinoJson.h>
+#include <secrets.h>
+
 
 // --- WiFi Credentials ---
-const char* ssid = "REDACTED_SSID";
-const char* password = "[redact]";
+const char* ssid = WIFI_SSID;
+const char* password = WIFI_PASSWORD;
 
 RemoteServer::RemoteServer() : server_(80), ws_("/ws") {
     // Constructor initializes the server and websocket objects

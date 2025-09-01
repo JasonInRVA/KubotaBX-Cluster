@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include "Dashboard.h"
 #include "TractorInputs.h"
-#include "RemoteServer.h" // <-- Include our new class
+#include "RemoteServer.h"
 
 // --- Global Objects ---
 Dashboard *dashboard = nullptr;

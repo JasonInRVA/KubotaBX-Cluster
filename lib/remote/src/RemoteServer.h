@@ -3,6 +3,8 @@
 #include <ESPAsyncWebServer.h>
 #include "Config.h" // To know about TractorState
 #include "TractorInputs.h"
+#include "secrets.h"
+
 
 
 class RemoteServer {
