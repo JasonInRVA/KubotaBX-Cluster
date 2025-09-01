@@ -98,17 +98,16 @@ void Dashboard::drawSplash() {
     sprite_->fillSprite(TFT_BLACK);
     sprite_->setTextColor(TFT_WHITE, TFT_BLACK);
 
-    sprite_->setTextFont(1);      // built-in font
+    sprite_->setTextFont(1);
     sprite_->setTextSize(1);
-    sprite_->setTextDatum(MC_DATUM);  // ← change from TL_DATUM to MC_DATUM
+    sprite_->setTextDatum(MC_DATUM);
 
-    Serial.println("About to draw centered");
-    sprite_->drawString("BX Cluster", 240, 160);          // keep built-in font
-    sprite_->setFreeFont(&FreeSans9pt7b);                 // switch to FreeFont for test
-    sprite_->drawString("Initializing...", 240, 190);     // FreeFont-drawn string
-    sprite_->setFreeFont(nullptr);                        // restore
-    Serial.println("After draw centered");
-
+    Serial.println("Drawing splash screen");
+    sprite_->drawString("BX Cluster", 240, 160);
+    sprite_->setFreeFont(&FreeSans9pt7b);
+    sprite_->drawString("Initializing...", 240, 190);
+    sprite_->setFreeFont(nullptr);
+    Serial.println("Finished drawing splash screen");
     sprite_->pushSprite(0, 0);
 }
 
@@ -143,7 +142,6 @@ void Dashboard::drawArcGauge(int x, int y, int radius, float value, float minVal
         TFT_WHITE
     );
     sprite_->fillCircle(x, y, 5, TFT_WHITE);
-
     sprite_->setTextColor(TFT_WHITE, TFT_BLACK);
     sprite_->setTextDatum(MC_DATUM);
     sprite_->setFreeFont(&FreeSans9pt7b);

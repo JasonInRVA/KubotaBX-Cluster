@@ -10,10 +10,8 @@ const char* ssid = WIFI_SSID;
 const char* password = WIFI_PASSWORD;
 
 RemoteServer::RemoteServer() : server_(80), ws_("/ws") {
-    // Constructor initializes the server and websocket objects
 }
 
-// In lib/remote/src/RemoteServer.cpp
 
 void RemoteServer::begin(ITractorInputs* inputs) {
     this->inputs_ = inputs;
@@ -76,7 +74,6 @@ if (WiFi.status() == WL_CONNECTED) {
         request->send(SPIFFS, "/index.html", "text/html");
     });
 
-    // --- THIS IS THE CRITICAL ADDITION ---
     // This "catch-all" handler will try to serve any other requested file from SPIFFS
     server_.onNotFound([](AsyncWebServerRequest *request) {
         if (SPIFFS.exists(request->url())) {
@@ -85,7 +82,6 @@ if (WiFi.status() == WL_CONNECTED) {
             request->send(404, "text/plain", "Not Found");
         }
     });
-    // --- END OF ADDITION ---
 
     server_.begin();
     Serial.println("Remote server started.");
