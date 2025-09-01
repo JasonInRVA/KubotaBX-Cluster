@@ -57,8 +57,8 @@ if (WiFi.status() == WL_CONNECTED) {
             // Let's send the current state to the new client, but SAFELY.
             if (this->inputs_ != nullptr) {
                 // If the pointer is valid, get the state and broadcast it.
-                // This is just an example of what you can do now.
-                TractorState currentState = this->inputs_->read();                this->broadcastState(currentState); 
+                TractorState currentState = this->inputs_->read();                
+                this->broadcastState(currentState); 
             } else {
                 // If the pointer is not valid, do nothing. NO CRASH.
                 Serial.println("Warning: WS connected but inputs not ready.");
