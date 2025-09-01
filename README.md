@@ -1,6 +1,6 @@
 # Kubota BX Digital Cluster
 
-A drop-in replacement for the Kubota BX tractor’s gauge cluster, powered by an **ESP32-S3** and a **4.0″ TFT LCD**. The stock clusters are known to fail; this project builds a rugged, sunlight-readable, and extensible digital dashboard instead.
+A drop-in replacement for the Kubota BX tractor’s gauge cluster, powered by an **ESP32-S3** and a **4.0″ TFT LCD**. The stock clusters are known to fail; this project aims to builds a rugged, sunlight-readable, and extensible digital dashboard instead.
 
 ## Features
 - **Real-time RPM** using the ESP32’s PCNT hardware counter.  
