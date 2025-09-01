@@ -5,7 +5,7 @@
 
 // --- WiFi Credentials ---
 const char* ssid = "REDACTED_SSID";
-const char* password = "REDACTED_PASSWORD";
+const char* password = "[redact]";
 
 RemoteServer::RemoteServer() : server_(80), ws_("/ws") {
     // Constructor initializes the server and websocket objects
