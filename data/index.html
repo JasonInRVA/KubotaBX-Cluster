@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tractor Dashboard</title>
+    <script src="/gauge.min.js"></script>
+    <style>
+      body {
+        font-family: "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
+        background-color: #000;
+        color: white;
+        text-align: center;
+        margin: 0;
+        padding: 10px;
+        user-select: none;
+      }
+      .dashboard-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .indicator-bar {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 10px;
+        background-color: #111;
+        border-radius: 10px;
+        border: 1px solid #333;
+      }
+      .indicator {
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-weight: bold;
+        color: #444;
+        border: 1px solid #444;
+        transition: all 0.2s ease-in-out;
+      }
+      .indicator.active.green {
+        background-color: #2ecc71;
+        color: white;
+        border-color: #2ecc71;
+      }
+      .indicator.active.blue {
+        background-color: #3498db;
+        color: white;
+        border-color: #3498db;
+      }
+      .indicator.active.orange {
+        background-color: #f39c12;
+        color: white;
+        border-color: #f39c12;
+      }
+      .indicator.active.red {
+        background-color: #e74c3c;
+        color: white;
+        border-color: #e74c3c;
+      }
+      .gauge-area {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        gap: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+    console.log('[index] inline script ran');
+    alert('Inline JS ran');
+  </script>
+    <div class="dashboard-container">
+      <div class="indicator-bar">
+        <span id="indicator-blinker-left" class="indicator">LEFT</span>
+        <span id="indicator-oil" class="indicator">OIL</span>
+        <span id="indicator-glow" class="indicator">GLOW</span>
+        <span id="indicator-battery" class="indicator">BATT</span>
+        <span id="indicator-headlights" class="indicator">LIGHTS</span>
+        <span id="indicator-blinker-right" class="indicator">RIGHT</span>
+      </div>
+
+      <div class="gauge-area">
+        <canvas
+          id="gauge-temp"
+          data-type="radial-gauge"
+          data-width="150"
+          data-height="150"
+          data-units="°C"
+          data-title="Coolant"
+          data-min-value="40"
+          data-max-value="120"
+          data-major-ticks="40,60,80,100,120"
+          data-color-plate="#111"
+          data-color-major-ticks="#ccc"
+          data-color-minor-ticks="#ccc"
+          data-color-title="#ccc"
+          data-color-units="#ccc"
+          data-color-numbers="#ccc"
+          data-color-needle-start="rgba(255,0,0,1)"
+          data-color-needle-end="rgba(255,100,100,1)"
+          data-highlights='[ {"from": 40, "to": 95, "color": "rgba(0, 255, 0, .25)"}, {"from": 95, "to": 110, "color": "rgba(255, 255, 0, .25)"}, {"from": 110, "to": 120, "color": "rgba(255, 0, 0, .25)"} ]'
+        ></canvas>
+
+        <canvas
+          id="gauge-rpm"
+          data-type="radial-gauge"
+          data-width="200"
+          data-height="200"
+          data-units="RPM"
+          data-title="Engine"
+          data-min-value="0"
+          data-max-value="4000"
+          data-major-ticks="0,500,1000,1500,2000,2500,3000,3500,4000"
+          data-color-plate="#111"
+          data-color-major-ticks="#ccc"
+          data-color-minor-ticks="#ccc"
+          data-color-title="#ccc"
+          data-color-units="#ccc"
+          data-color-numbers="#ccc"
+          data-color-needle-start="rgba(255,0,0,1)"
+          data-color-needle-end="rgba(255,100,100,1)"
+          data-highlights='[ {"from": 0, "to": 3000, "color": "rgba(0, 255, 0, .25)"}, {"from": 3000, "to": 3500, "color": "rgba(255, 255, 0, .25)"}, {"from": 3500, "to": 4000, "color": "rgba(255, 0, 0, .25)"} ]'
+        ></canvas>
+
+        <canvas
+          id="gauge-fuel"
+          data-type="radial-gauge"
+          data-width="150"
+          data-height="150"
+          data-units="%"
+          data-title="Fuel"
+          data-min-value="0"
+          data-max-value="100"
+          data-major-ticks="0,20,40,60,80,100"
+          data-color-plate="#111"
+          data-color-major-ticks="#ccc"
+          data-color-minor-ticks="#ccc"
+          data-color-title="#ccc"
+          data-color-units="#ccc"
+          data-color-numbers="#ccc"
+          data-color-needle-start="rgba(255,0,0,1)"
+          data-color-needle-end="rgba(255,100,100,1)"
+          data-highlights='[ {"from": 0, "to": 15, "color": "rgba(255, 0, 0, .25)"}, {"from": 15, "to": 35, "color": "rgba(255, 255, 0, .25)"}, {"from": 35, "to": 100, "color": "rgba(0, 255, 0, .25)"} ]'
+        ></canvas>
+      </div>
+    </div>
+
+    <script>
+  const gateway = `ws://${window.location.hostname}/ws`;
+  const ws = new WebSocket(gateway);
+
+  function getGauge(id) {
+    // canvas-gauges exposes a global collection:
+    // document.gauges.get('canvas-id') -> Gauge instance or null
+    if (document.gauges && typeof document.gauges.get === 'function') {
+      return document.gauges.get(id) || null;
+    }
+    return null;
+  }
+
+  function setGaugeValue(id, v) {
+    const g = getGauge(id);
+    if (g) {
+      g.value = v;
+    } else {
+      console.warn('Gauge not ready:', id);
+    }
+  }
+
+  // Wait until auto-init has run (DOM ready triggers lib init)
+  window.addEventListener('DOMContentLoaded', () => {
+    // Optionally verify the instances exist now:
+    ['gauge-rpm','gauge-temp','gauge-fuel'].forEach(id => {
+      if (!getGauge(id)) console.warn('Gauge instance missing at DOMContentLoaded:', id);
+    });
+  });
+
+  ws.onopen = () => console.log('[WS] open');
+  ws.onerror = (e) => console.error('[WS] error', e);
+  ws.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    setGaugeValue('gauge-rpm',  Number(data.rpm));
+    setGaugeValue('gauge-fuel', Number(data.fuel_pct));
+    setGaugeValue('gauge-temp', Number(data.temp_c));
+
+    const updateIndicator = (id, isActive, cls) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (isActive) el.classList.add('active', cls);
+      else el.classList.remove('active', 'green', 'blue', 'orange', 'red');
+    };
+    updateIndicator('indicator-blinker-left',  data.bl_left,    'green');
+    updateIndicator('indicator-blinker-right', data.bl_right,   'green');
+    updateIndicator('indicator-headlights',    data.headlights, 'blue');
+    updateIndicator('indicator-glow',          data.glow_on,    'orange');
+    updateIndicator('indicator-oil',           !data.oil_ok,    'red');
+    updateIndicator('indicator-battery',       !data.battery_ok,'red');
+  };
+</script>
+  </body>
+</html>
