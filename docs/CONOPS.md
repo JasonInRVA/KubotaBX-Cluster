@@ -44,11 +44,12 @@ This section describes the system in action from the user's point of view.
 ### 4.1 Scenario 1: System Startup (Key On)
 * **Trigger:** Operator turns the tractor key to the "ON" position.
 * **Sequence of Events:**
-  * 1. The system receives power, and the screen backlights turn on.
-  * 2. A splash screen appears, displaying "BX Cluster - Initializing..." for approximately 2 seconds.
-  * 3. During this time, the WiFi and web server is initialized.
-  * 3. The display transitions to the main dashboard view.
-  * 5. All gauges (RPM, Fuel, Temp) show a reading of zero. All indicator icons are visible in a dim, dark gray "standby" state.
+  1. The system receives power, and the screen backlights turn on.
+  2. A splash screen appears, displaying "BX Cluster - Initializing..." for approximately 2 seconds.
+  3. During this time, the WiFi and web server is initialized.
+  4. The display transitions to the main dashboard view.
+  5. All gauges (RPM, Fuel, Temp) show a reading of zero. All indicator icons are visible in a dim, dark gray "standby" state.
+  6. The oil warning light is illuminated by virtue of insufficent oil pressure hitting the sensor since the engine is not running.
 
 ### 4.2 Scenario 2: Normal Operation
 * **Trigger:** Engine is running under normal conditions.
@@ -70,6 +71,7 @@ This section describes the system in action from the user's point of view.
   * **Low Oil Pressure:** The red oil can icon flashes brightly at 2 Hz to indicate a critical warning.
   * **Low Battery Voltage:** The battery indicator icon, normally gray, turns a steady, bright red to indicate a charging system fault.
   * **High Coolant Temperature:** As the temperature gauge needle enters the upper 15% of its range (the red zone), the numerical temperature readout turns bright red.
+  * **Low Fuel Level:** As the fuel level reaches the lower 10% of its range (the red zone), the numberical fuel readout turns bright red. If the level reaches 5%, the analog fuel gauge flashes at 1 Hz.
 
 ### 4.5 Scenario 5: System Shutdown (Key Off)
 * **Trigger:** Operator turns the tractor key to the "OFF" position.
