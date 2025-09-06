@@ -89,3 +89,9 @@ This section describes the system in action from the user's point of view.
 * The TFT display used in Version 1.0 is not sunlight-readable and may be difficult to see in direct, bright sunlight.
 * The system does not log data; it is for real-time display only.
 * The remote web interface is view-only and provides no control over the system.
+
+## 6.0 Future Expansion
+
+### 6.1 Minimum Viable Solutions
+
+### 6.2 Open Expansion Possibilities
